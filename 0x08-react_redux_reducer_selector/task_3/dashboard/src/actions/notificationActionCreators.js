@@ -36,6 +36,7 @@ const fetchNotificationSuccess = (data) => {
 export default {
   markAsAread,
   setNotificationFilter,
+  fetchNotificationSuccess,
   boundMarkAsAread,
   boundSetNotificationFilter,
 };

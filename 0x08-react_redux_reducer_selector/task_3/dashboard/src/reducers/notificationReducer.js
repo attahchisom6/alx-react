@@ -26,7 +26,7 @@ const notificationReducer = (state = initialState, action) => {
         ...state,
         notifications: state.map((obj) =>
           obj.id === action.index ?
-            { ...obj, isRead: true} : obj;
+            { ...obj, isRead: true} : obj
         ),
       };
 
@@ -40,3 +40,5 @@ const notificationReducer = (state = initialState, action) => {
       return state;
   };
 };
+
+export default { notificationReducer, initialState };
