@@ -1,0 +1,10 @@
+footer {
+  position: absolute;
+  margin-bottom: 0px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  background-color: #ff3;
+}

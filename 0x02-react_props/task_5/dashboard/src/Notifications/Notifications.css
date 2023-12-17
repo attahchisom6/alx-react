@@ -1,0 +1,27 @@
+/*.flexBox {
+  display: flex;
+  background-color: black;
+}*/
+
+.Notifications {
+  background-color: pink;
+  padding: 1em;
+  border: 2px dashed red;
+  font-family: Arial, Heveltica, Sans-serif;
+  top: 2.5em;
+  right: 0;
+  position: relative;
+  width: 95vw;
+}
+
+.menuItem {
+  text-align: right;
+}
+
+[data-notification-type="default"] {
+  color: blue;
+}
+
+[data-urgent], [data-notification-type="urgent"] {
+  color: red;
+}

@@ -1,0 +1,9 @@
+body {
+  background-color: #5fc;
+}
+
+#count {
+  display: inline;
+  font-weight: Bold;
+  margin-left: 20px;
+}
