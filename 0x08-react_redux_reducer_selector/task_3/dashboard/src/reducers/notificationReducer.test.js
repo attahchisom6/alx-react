@@ -2,149 +2,165 @@
  * @jest-environment jsdom
  */
 
-import {
+import notif from "../actions/notificationActionCreators";
+const{
   markAsAread,
   setNotificationFilter,
   fetchNotificationSuccess,
-} from "../actions/notificationActionCreators";
+} = notif;
 import reduxState from "./notificationReducer";
 
 
 const { initialState } = reduxState;
 
-describe("it tests our courseReducer", () => {
-  let courseReducerSpy;
+describe("it tests our notificationReducer", () => {
+  let notifReducerSpy;
   let state, data, newState;
 
   beforeEach(() => {
     state = initialState;
-    courseReducerSpy = jest.spyOn(reduxState, "courseReducer");
-    data =  [
+    notifReducerSpy = jest.spyOn(reduxState, "notificationReducer");
+    data = [
       {
         id: 1,
-        name: "ES6",
-        credit: 60
+        type: "default",
+        value: "New course available"
       },
       {
         id: 2,
-        name: "Webpack",
-        credit: 20
+        type: "urgent",
+        value: "New resume available"
+        
       },
       {
         id: 3,
-        name: "React",
-        credit: 40
-      },
+        type: "urgent",
+        value: "New data available"
+      }
     ];
   });
 
   afterEach(() => {
-    courseReducerSpy.mockRestore();
+    notifReducerSpy.mockRestore();
   });
 
-  it("verifies that default state returns an empty array", () => {
-    newState = courseReducerSpy(state, {});
-    expect(courseReducerSpy).toHaveBeenCalledTimes(1);
-    expect(courseReducerSpy).toHaveBeenCalledWith(initialState, {});
-    expect(initialState).toEqual([]);
+  it("verifies that default state returns initialState", () => {
+    newState = notifReducerSpy(state, {});
+    expect(notifReducerSpy).toHaveBeenCalledTimes(1);
+    expect(notifReducerSpy).toHaveBeenCalledWith(initialState, {});
     expect(newState).toEqual(initialState);
   });
 
-  it("verifies that FETCH_COURSE_ACTION action returns the data passed", () => {
-    const action = fetchCourseSucess(data);
+  it("verifies that FETCH_NOTIFICATION_ACTION action returns the data passed", () => {
+    const action = fetchNotificationSuccess(data);
+
     const newDataFromAction = action.data;
 
     expect(newDataFromAction).toEqual(data);
   });
 
-  it("verifies that FETCH_COURSE_SUCCESS reducer returns the data with additional attribute", () => {
-    const action = fetchCourseSucess(data);
-    newState = courseReducerSpy(state, action);
-    // Data = newState;
-    const expectedState = [
-      {
-        id: 1,
-        name: "ES6",
-        credit: 60,
-        isSelected: false,
-      },
-      {
-        id: 2,
-        name: "Webpack",
-        credit: 20,
-        isSelected: false,
-      },
-      {
-        id: 3,
-        name: "React",
-        credit: 40,
-        isSelected: false,
-      },
-    ];
+  it("verifies that FETCH_NOTIFICATION_SUCCESS reducer returns the data with additional attribute", () => {
+    const action = fetchNotificationSuccess(data);
+    newState = notifReducerSpy(state, action);
 
-    expect(courseReducerSpy).toHaveBeenCalled();
-    expect(courseReducerSpy).toHaveBeenCalledWith(state, action);
+    const expectedState = {
+      filter: "DEFAULT",
+      notifications: [
+        {
+          id: 1,
+          isRead: false,
+          type: "default",
+          value: "New course available"
+        },
+        {
+          id: 2,
+          isRead: false,
+          type: "urgent",
+          value: "New resume available"
+        },
+        {
+          id: 3,
+          isRead: false,
+          type: "urgent",
+          value: "New data available"
+        }
+      ],
+    };
+
+    expect(notifReducerSpy).toHaveBeenCalled();
+    expect(notifReducerSpy).toHaveBeenCalledWith(state, action);
     expect(newState).toEqual(expectedState);
-    expect(newState.every((course) => course.isSelected === false)).toEqual(true);
+    expect(newState.notifications.every((notification) => notification.isRead === false)).toEqual(true);
   });
 
-  it("verifies that SELECT_COURSE returns the data with the right item updated", () => {
-    const action = selectCourse(3);
-    newState = courseReducerSpy(state=newState, action);
-    const expectedState = [
-      {
-        id: 1,
-        name: "ES6",
-        credit: 60,
-        isSelected: false,
-      },
-      {
-        id: 2,
-        name: "Webpack",
-        credit: 20,
-        isSelected: false,
-      },
-      {
-        id: 3,
-        name: "React",
-        credit: 40,
-        isSelected: true,
-      },
-    ];
+  it("verifies that MARK_AS_READ returns the data with the right item updated", () => {
+    const action = markAsAread(3);
+    newState = notifReducerSpy(state=newState, action);
+    const expectedState = {
+      filter: "DEFAULT",
+      notifications: [
+        {
+          id: 1,
+          isRead: false,
+          type: "default",
+          value: "New course available"
+        },
+        {
+          id: 2,
+          isRead: false,
+          type: "urgent",
+          value: "New resume available"
+        },
+        {
+          id: 3,
+          isRead: true,
+          type: "urgent",
+          value: "New data available"
+        }
+      ],
+    };
 
-    expect(courseReducerSpy).toHaveBeenCalled();
-    expect(courseReducerSpy).toHaveBeenCalledWith(state, action);
+    expect(notifReducerSpy).toHaveBeenCalled();
+    expect(notifReducerSpy).toHaveBeenCalledWith(state, action);
     expect(newState).toEqual(expectedState);
-    expect(newState.some((course) => course.isSelected === true)).toEqual(true);
+    expect(newState.notifications.some((notification) => notification.isRead === true)).toEqual(true);
   });
 
-  it("verifies that UNSELECT_COURSE returns the data with the right item updated", () => {
-    const action = unSelectCourse(3);
-    newState = courseReducerSpy(state=newState, action);
-    const expectedState = [
-      {
-        id: 1,
-        name: "ES6",
-        credit: 60,
-        isSelected: false,
-      },
-      {
-        id: 2,
-        name: "Webpack",
-        credit: 20,
-        isSelected: false,
-      },
-      {
-        id: 3,
-        name: "React",
-        credit: 40,
-        isSelected: false,
-      },
-    ];
+  it("verifies that  SET_TYPE_FILTER actions returns the data with the filter  item updated", () => {
+    const action1 = fetchNotificationSuccess(data);
+    newState = notifReducerSpy(state, action1);
 
-    expect(courseReducerSpy).toHaveBeenCalled();
-    expect(courseReducerSpy).toHaveBeenCalledWith(state, action);
+    // update filter status of the newState
+    const filter = "URGENT";
+    const action2 = setNotificationFilter(filter);
+    newState = notifReducerSpy(state=newState, action2);
+    const expectedState = {
+      filter: "URGENT",
+      notifications: [
+        {
+          id: 1,
+          isRead: false,
+          type: "default",
+          value: "New course available"
+        },
+        {
+          id: 2,
+          isRead: false,
+          type: "urgent",
+          value: "New resume available"
+        },
+        {
+          id: 3,
+          isRead: false,
+          type: "urgent",
+          value: "New data available"
+        }
+      ],
+    };
+
+    expect(notifReducerSpy).toHaveBeenCalled();
+    expect(notifReducerSpy).toHaveBeenCalledWith(state, action2);
     expect(newState).toEqual(expectedState);
-    expect(newState.some((course) => course.isSelected === false)).toEqual(true);
+    expect(newState.filter).toEqual("URGENT");
   });
 });

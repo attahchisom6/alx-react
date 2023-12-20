@@ -1,4 +1,4 @@
-export {
+import {
   MARK_AS_READ,
   SET_TYPE_FILTER,
   FETCH_NOTIFICATIONS_SUCCESS,
@@ -18,13 +18,13 @@ const notificationReducer = (state = initialState, action) => {
         notifications: action.data.map((obj) => ({
           ...obj,
           isRead: false,
-        });
+        })),
       }
 
     case MARK_AS_READ:
       return {
         ...state,
-        notifications: state.map((obj) =>
+        notifications: state.notifications.map((obj) =>
           obj.id === action.index ?
             { ...obj, isRead: true} : obj
         ),
