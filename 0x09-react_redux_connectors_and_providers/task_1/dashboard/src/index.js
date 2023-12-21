@@ -7,7 +7,7 @@ import reduxState from "./reducers/uiReducer";
 import { Map } from "immutable";
 
 const { uiReducer, initialState } = reduxState;
-const store = createStore(uiReducer, Map(initialState));
+const store = createStore(uiReducer, initialState);
 
 ReactDOM.render(
   <React.StrictMode>

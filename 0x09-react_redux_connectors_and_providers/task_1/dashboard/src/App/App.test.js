@@ -59,12 +59,7 @@ describe("Test the components of our react app", () => {
   });
 
   it("verifies that the App renders a CourseList component but not a Login component", () => {
-    const component = shallow(<App />);
-    component.setState({
-      user: {
-        isLoggedIn: true,
-      },
-    });
+    const component = shallow(<App isLoggedIn={ true } />);
     expect(component.find("CourseList").exists()).toBe(true);
     expect(component.find("Login").exists()).toBe(false);
   });
@@ -171,35 +166,34 @@ describe('testting the working pattern of the state variable in the App componen
 
 describe("This will test our connector funcion", () => {
   it("it test that the connector returns the right object from the state", () => {
-    const state = Map({
+    const state1 = Map({
       isUserLoggedIn: true,
     });
+
+    const state2 = Map({
+      isNotificationDrawerVisible: true,
+    });
+
+    const state3 = Map({
+      isNotificationDrawerVisible: false,
+    });
+
     const expected = {
       isLoggedIn: true,
     };
-    const actual = mapStateToProps(state);
-    expect(actual).toEqual(expected);
-  });
-
-  /*it("it test that the connector returns the right displayDraeer object", () => {
-    const state = Map({
-      isNotificationDrawerVisible: true,
+    const actual1 = mapStateToProps(state1);
+    const actual2 = mapStateToProps(state2);
+    const actual3 = mapStateToProps(state3)
+    expect(actual1).toEqual({
+      isLoggedIn: true,
     });
-    const expected = {
+    expect(actual2).toEqual({
       displayDrawer: true,
-    };
-    const actual = mapDispatchToProps.displayNotificationDrawer(state);
-    expect(actual).toEqual(expected);
+    });
+    expect(actual3).toEqual({
+      displayDrawer: false,
+    })
   });
 
-  it("it test that the connector returns the right hidedisplayDrawer object", () => {
-    const state = Map({
-      isNotificationDrawerVisible: true,
-    });
-    const expected = {
-      displayDrawer: false,
-    };
-    const actual = mapDispatchToProps.displayNotificationDrawer(state);
-    expect(actual).toEqual(expected);
   });*/
 });

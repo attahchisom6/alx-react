@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import { Map } from "immutable";
 import {
   unSelectCourse,
   selectCourse,
@@ -48,7 +49,7 @@ describe("it tests our uiReducer", () => {
     expect(uiReducerSpy).toHaveBeenCalled();
     expect(uiReducerSpy).toHaveBeenCalledWith(initialState, action);
     expect(newState.toJS()).toEqual({
-      ...state,
+      ...state.toJS(),
       isNotificationDrawerVisible: true,
     });
     expect(newState.get("isNotificationDrawerVisible")).toEqual(true);

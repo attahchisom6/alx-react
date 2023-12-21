@@ -15,8 +15,9 @@ import { connect } from "react-redux";
 import uiActions from "../actions/uiActionCreators";
 
 const {
-  hideNotificationDrawer,
+  login,
   displayNotificationDrawer,
+  hideNotificationDrawer,
 } = uiActions;
 
 class App extends React.Component {
@@ -113,7 +114,7 @@ class App extends React.Component {
             <Notifications
               listNotifications={ listNotifications }
               displayDrawer={ displayDrawer }
-              handleDisplayDrawer={ hideNotificationDrawer }
+              handleDisplayDrawer={ displayNotificationDrawer }
               handleHideDrawer={ hideNotificationDrawer }
               markNotificationAsRead={ this.markNotificationAsRead }
             />
