@@ -39,7 +39,7 @@ describe("test that mounts the Header component with a different context value."
       password: "",
       isLoggedIn: false,
     };
-    const logOut = jest.fn();
+    const logout = jest.fn();
 
     const component = shallow(<Header logout={logout} user={ user } />);
 
@@ -54,8 +54,8 @@ describe("test that mounts the Header component with a different context value."
       password: "pass4669",
       isLoggedIn: true,
     };
-    const logOut = jest.fn();
-  const component = shallow(<Header logout={ logout } user={ user } />);
+    const mockLogout = jest.fn();
+  const component = shallow(<Header logout={ mockLogout } user={ user } />);
     const logoutSection = component.find("#logoutSection");
 
     expect(component.exists()).toBe(true);

@@ -2,9 +2,9 @@ import React from 'react';
 import utils from '../utils/utils.js';
 const { getFullYear, getFooterCopy, getLatestNotification } = utils;
 import { Notifications } from '../Notifications/Notifications';
-import Header from '../Header/Header';
+import { Header } from '../Header/Header';
 import Login from '../Login/Login';
-import Footer from '../Footer/Footer';
+import { Footer } from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import PropTypes from 'prop-types';
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
@@ -98,7 +98,7 @@ class App extends React.Component {
             markNotificationAsRead={ this.markNotificationAsRead }
             />
           <div>
-            <Header displayDrawer={ displayDrawer } />
+            <Header displayDrawer={ displayDrawer } user={ user } logout={ logout } />
           </div>
           { isLoggedIn ? (
               <BodySectionWithMarginBottom title="Course list">
@@ -111,8 +111,7 @@ class App extends React.Component {
             )
           }
           <BodySection title="News from the School">
-            <p>Let's Build a great Future
-today, even while studying</p>
+            <p>Let's Build a great Future today, even while studying</p>
           </BodySection>
           <Footer />
         </div>

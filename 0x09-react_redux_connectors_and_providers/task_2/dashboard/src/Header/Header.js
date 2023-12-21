@@ -8,8 +8,14 @@ import uiActions from "../actions/uiActionCreators";
 
 const { logout } = uiActions;
 
-const Header = ({ displayDrawer, logout, user }) => {
-  // const { user, logOut } = useContext(AppContext);
+// const Header = ({ displayDrawer, logout, user }) => {
+class Header extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  // const { user } = useContext(AppContext);
+  render() {
+    const { user, logout, displayDrawer } = this.props;
   return (
     <>
       <div className={ displayDrawer ? css(styles.HeaderWithDrawer) : css(styles.HeaderWithoutDrawer) }>
@@ -28,7 +34,10 @@ const Header = ({ displayDrawer, logout, user }) => {
     </>
 
   );
-}
+  }
+};
+
+Header.contextType = AppContext;
 
 const mapStateToProps = (state) => {
   return {
@@ -73,7 +82,14 @@ const styles = StyleSheet.create({
   },
 
   Welcome: {
-    marginTop: "4px",
+    position: "absolute",
+    right: "10px",
+    top: "30%",
+    "@media (max-width: 400px)": {
+      position: "static",
+      marginTop: "4px",
+      bottom: "0",
+    },
   },
 });
 
