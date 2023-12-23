@@ -6,15 +6,16 @@ import { Provider } from "react-redux";
 import reduxRootState from "./reducers/rootReducer";
 import { Map } from "immutable";
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { combineReducers } from "redux";
+//import { composeWithDevTools } from "redux-devtools-extension";
+import { compose, combineReducers } from "redux";
 
+const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const { rootReducer, initialRootState } = reduxRootState;
 const store = createStore(
   combineReducers(rootReducer),
   initialRootState,
-  composeWithDevTools(
+  enhancer(
   applyMiddleware(thunk))
 );
 

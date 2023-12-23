@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 import {
   MARK_AS_READ,
   SET_TYPE_FILTER,
@@ -23,7 +23,7 @@ const notificationReducer = (state = initialState, action) => {
       Object.keys(normalizedData.notifications).map((key) => {
         return normalizedData.notifications[key].isRead === false;
       });
-      return state.mergeDeep(normalizedData);
+      return state.mergeDeep(fromJS(normalizedData));
 
     case MARK_AS_READ:
       return state.setIn(["entities", "notifications", action.index.toString(), "isRead"], true);
