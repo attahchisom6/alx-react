@@ -16,9 +16,10 @@ const getUnreadNotifications = (state) => {
   /*const notificationObj = state.getIn(["entities", "notifications"]);
   const notificationList = Object.values(notificationObj);
   return notificationList.filter((notif) => !notif.isRead);*/
-  const notifications = state.getIn(["entities", "notifications"]);
+  // const notifications = state.getIn(["entities", "notifications"]);
+  const notifications = state.notifications.get("messages");
   const filteredNotif = notifications ? (
-    Object.values(notifications).filter((notif) => !notif.isRead)
+    notifications.valueSeq().filter((notif) => !notif.isRead)
   ) : notifications;
   return filteredNotif;
 }

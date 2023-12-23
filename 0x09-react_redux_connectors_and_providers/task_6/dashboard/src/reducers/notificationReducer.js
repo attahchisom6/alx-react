@@ -19,14 +19,10 @@ const initialState = Map({
 const notificationReducer = (state = initialState, action) => {
   switch(action.type) {
     case FETCH_NOTIFICATIONS_SUCCESS:
-      const notifData = action.data.map((notif) => ({
-        id: notif.id,
-        type: notif.type,
-        isRead: false,
-        value: notif.value,
-      })
-      );
-      const normalizedData = notificationsNormalizer(notifData);
+      const normalizedData = notificationsNormalizer(action.data);
+      Object.keys(normalizedData.notifications).map((key) => {
+        return normalizedData.notifications[key].isRead === false;
+      });
       return state.mergeDeep(normalizedData);
 
     case MARK_AS_READ:
