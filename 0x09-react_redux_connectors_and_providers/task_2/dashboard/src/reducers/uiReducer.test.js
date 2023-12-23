@@ -55,4 +55,26 @@ describe("it tests our uiReducer", () => {
     expect(newState.get("isNotificationDrawerVisible")).toEqual(true);
     jest.restoreAllMocks();
   });
+
+  it("verifies that uiReducer sets isNotificationDrawerVisible: to true with the action type DISPLAY_NOTIFICATION_DRAWER", () => {
+    const [email, password] = ["test@test.com", "password1234"];
+    const action = disp.login(email, password);
+    const newState = uiReducerSpy(state, action);
+
+    expect(uiReducerSpy).toHaveBeenCalled();
+    expect(uiReducerSpy).toHaveBeenCalledWith(initialState, action);
+    expect(newState.toJS()).toEqual({
+      ...state.toJS(),
+      user: {
+        ...state.toJS().user,
+        email,
+        password,
+      },
+      isUserLoggedIn: true,
+    });
+    expect(newState.getIn(["user", "email"])).toEqual(email);
+    expect(newState.getIn(["user", "password"])).toEqual(password);
+    expect(newState.get("isUserLoggedIn")).toEqual(true);
+    jest.restoreAllMocks();
+  });
 });

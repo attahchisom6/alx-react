@@ -34,11 +34,11 @@ describe('test the header component functionality', () => {
 
 describe("test that mounts the Header component with a different context value.", () => {
   it("verify that the logoutSection is not created when mounted with a default context value", () => {
-    const user = {
+    const user = null /*{
       email: "",
       password: "",
-      isLoggedIn: false,
-    };
+      // isLoggedIn: false,
+    }*/;
     const logout = jest.fn();
 
     const component = shallow(<Header logout={logout} user={ user } />);
@@ -49,25 +49,23 @@ describe("test that mounts the Header component with a different context value."
   });
 
   it("test that the logoutSection is rendered when custom email and password are passed", () => {
-    const user = {
+    const user =  {
       email: "code@mail.com",
       password: "pass4669",
-      isLoggedIn: true,
-    };
+    }
     const mockLogout = jest.fn();
   const component = shallow(<Header logout={ mockLogout } user={ user } />);
     const logoutSection = component.find("#logoutSection");
 
     expect(component.exists()).toBe(true);
     expect(logoutSection.exists()).toBe(true);
-    expect(logoutSection.find("h1").html()).toContain("Welcome");
+    expect(logoutSection.find("h1").html()).toContain(`Welcome ${ user.email }`);
   });
 
   it("verifies that the logOut function is called when the link is clicked", () => {
     const user = {
       email: "secondUserEmail@hello.com",
       password: "2673password",
-      isLoggedIn: true,
     };
     const logoutSpy = jest.fn();
 

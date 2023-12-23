@@ -15,16 +15,16 @@ class Header extends React.Component {
   }
   // const { user } = useContext(AppContext);
   render() {
-    const { user, logout, displayDrawer, isLogggedIn } = this.props;
+    const { user, logout, displayDrawer } = this.props;
   return (
     <>
       <div className={ displayDrawer ? css(styles.HeaderWithDrawer) : css(styles.HeaderWithoutDrawer) }>
         <img src={ logo } alt="Holberton" className={ css(styles.HeaderIMG) } />
         <h1>School dashboard</h1>
       </div>
-      {isLoggedIn && (
+      {user && (
         <section id="logoutSection" className={ css(styles.Welcome) }>
-          <h1>Welcome user email
+          <h1>Welcome { user.email }
             <em>
               <a href="#" onClick={ logout }> (logOut) </a>
             </em>
@@ -42,8 +42,7 @@ Header.contextType = AppContext;
 const mapStateToProps = (state) => {
   return {
     user: state.get("user"),
-    isLoggedIn: state.get("isUserLoggedIn"
-),
+    isLoggedIn: state.get("isUserLoggedIn"),
   };
 };
 
@@ -99,11 +98,9 @@ Header.propTypes = {
   displayDrawer: PropTypes.bool,
   logout: PropTypes.func,
   user: PropTypes.object,
-  isLoggedIn: PropTypes.bool,
 }
 
 Header.defaultProps = {
-  isLoggedIn: false,
   user: null,
   logout: () => {},
 };
