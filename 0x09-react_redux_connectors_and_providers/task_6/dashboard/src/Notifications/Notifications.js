@@ -48,9 +48,9 @@ export const Notifications = class Notifications extends React.Component {
                 <ul className={ css( styles.Ul) }>
                   {
                     listNotifications && listNotifications.length > 0 ? (
-                      listNotifications.map(({ type, html, value, guid }, idx) => (
+                      Object.values(listNotifications).map(({ type, html, value, guid }) => (
                         <NotificationItem
-                          key={ idx }
+                          key={ guid }
                           html={ html }
                           type={ type }
                           value={ value }

@@ -11,7 +11,7 @@ import notitNormalize from "../schema/notifications";
 const { notificationsNormalizer } = notitNormalize;
 
 const initialState = Map({
-  notifications: [],
+  notifications: {},
   filter: NotificationTypeFilters.DEFAULT,
   loading: false,
 });

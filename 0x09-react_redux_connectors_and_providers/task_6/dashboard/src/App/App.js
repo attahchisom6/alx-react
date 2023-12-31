@@ -72,7 +72,6 @@ class App extends React.Component {
       displayNotificationDrawer,
       hideNotificationDrawer,
       login,
-      logout,
     } = this.props;
     return (
       <React.Fragment>
