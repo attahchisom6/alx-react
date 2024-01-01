@@ -37,4 +37,4 @@ export default {
   getAllNotificationsByUser,
   notificationsNormalizer,
   normalizedData
-};
+};;

@@ -1,7 +1,6 @@
 import cReducer from "./courseReducer";
 import notifReducer from "./notificationReducer";
 import UIReducer from "./uiReducer";
-import { Map } from "immutable";
 
 
 const { courseReducer, initialState: initialCourseState } = cReducer;
