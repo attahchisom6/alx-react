@@ -47,8 +47,7 @@ export const Notifications = class Notifications extends React.Component {
                 <p>Here is the list of notifications</p>
                 <ul className={ css( styles.Ul) }>
                   {
-                    listNotifications ? (
-                      listNotifications && listNotifications.valueSeq().map((notif) => {
+                    listNotifications && listNotifications.valueSeq().map((notif) => {
                         let html = notif.get("html");
                         html = html ? html.toJS() : null;
                         return (
@@ -62,10 +61,10 @@ export const Notifications = class Notifications extends React.Component {
                           />
                         );
                       })
-                    ) : (
-                      <NotificationItem type="urgent" value="No new notification for now" />
-                    )
                   }
+                  {(!listNotifications || listNotifications.count() === 0) && (
+                      <NotificationItem type="urgent" value="No new notification for now" />
+                  )}
                 </ul>
               </div>
             </>

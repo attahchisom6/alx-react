@@ -9,7 +9,8 @@ import thunk from "redux-thunk";
 //import { composeWithDevTools } from "redux-devtools-extension";
 import { compose, combineReducers } from "redux";
 
-const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+  trace: true, }) || compose;
 
 const { rootReducer, initialRootState } = reduxRootState;
 const store = createStore(

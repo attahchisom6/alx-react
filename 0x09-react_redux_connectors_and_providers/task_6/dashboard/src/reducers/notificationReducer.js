@@ -26,7 +26,7 @@ const notificationReducer = (state = initialState, action) => {
       return state.mergeDeep(fromJS(normalizedData));
 
     case MARK_AS_READ:
-      return state.setIn(["messages", action.index.toString(), "isRead"], true);
+      return state.setIn(["messages", String(action.index), "isRead"], true);
 
     case SET_TYPE_FILTER:
       return state.set("filter", action.filter);

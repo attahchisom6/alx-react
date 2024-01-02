@@ -25,7 +25,7 @@ const NotificationItem = React.memo(function NotificationItem({
         <li
           data-urgent
           onClick={() => markAsRead(id)}
-          dangerouslySetInnerHTML={{ __html: html }}
+          dangerouslySetInnerHTML={html}
           className={css(styles.Urgent)}
         ></li>
       ) : null}
@@ -68,15 +68,16 @@ NotificationItem.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
   markAsRead: PropTypes.func,
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 NotificationItem.defaultProps = {
   type: 'default',
+  html: {},
   markAsRead: () => {
     console.log('I will mark when called');
   },
-  id: 0,
+  id: NaN,
 };
 
 export default NotificationItem;

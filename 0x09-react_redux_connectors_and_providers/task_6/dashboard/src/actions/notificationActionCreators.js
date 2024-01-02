@@ -43,18 +43,15 @@ const setNotifications = (data) => {
 };
 
 const fetchNotifications = () => {
-  const thunkAsync = async (dispatch) => {
+  /*const thunkAsync = async*/ return (dispatch) => {
     dispatch(setLoadingState(true));
     return fetch("./notifications.json")
       .then((data) => data.json())
-      .then((resData) => {
-        return dispatch(setNotifications(resData));
-        // dispatch(console.log(resData));
-      })
+      .then((resData) => dispatch(setNotifications(resData)))
       .catch(() => {})
       .finally(() => dispatch(setLoadingState(false)));
   }
-  return thunkAsync;
+  // return thunkAsync;
 }
 
 
