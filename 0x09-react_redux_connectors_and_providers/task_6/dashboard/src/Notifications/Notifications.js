@@ -49,7 +49,8 @@ export const Notifications = class Notifications extends React.Component {
                   {
                     listNotifications && listNotifications.valueSeq().map((notif) => {
                         let html = notif.get("html");
-                        html = html ? html.toJS() : null;
+                      if (html) html = html.toJS();
+
                         return (
                           <NotificationItem
                             key={ notif.get('guid') }

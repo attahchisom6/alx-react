@@ -11,7 +11,7 @@ const NotificationItem = React.memo(function NotificationItem({
 }) {
   return (
     <React.Fragment>
-      {type && value ? (
+      {value ? (
         <li
           data-notification-type={type}
           onClick={() => markAsRead(id)}
@@ -23,9 +23,9 @@ const NotificationItem = React.memo(function NotificationItem({
 
       {html ? (
         <li
-          data-urgent
+          data-notification-type={type}
           onClick={() => markAsRead(id)}
-          dangerouslySetInnerHTML={html}
+          dangerouslySetInnerHTML={{ __html: html }}
           className={css(styles.Urgent)}
         ></li>
       ) : null}
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 
 NotificationItem.propTypes = {
   html: PropTypes.shape({
-    html: PropTypes.string,
+    __html: PropTypes.string,
   }),
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
@@ -73,7 +73,7 @@ NotificationItem.propTypes = {
 
 NotificationItem.defaultProps = {
   type: 'default',
-  html: {},
+  // html: {},
   markAsRead: () => {
     console.log('I will mark when called');
   },
