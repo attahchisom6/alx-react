@@ -16,7 +16,7 @@ const getUnreadNotifications = (state) => {
   const notifications = state.notifications.get("messages");
   const filteredNotif = notifications ? (
     notifications.valueSeq().filter((notif) => !notif.isRead)
-  ) : notifications;
+  ) : null;
   return filteredNotif;
 }
 

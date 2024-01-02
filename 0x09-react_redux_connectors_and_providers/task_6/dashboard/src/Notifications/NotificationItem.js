@@ -1,103 +1,82 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { StyleSheet, css } from "aphrodite";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { StyleSheet, css } from 'aphrodite';
 
 const NotificationItem = React.memo(function NotificationItem({
+  id,
   type,
   value,
-  html,
+  html, // Ensure 'html' is passed as a prop
   markAsRead,
-  id,
 }) {
-  let listItem;
-
-  let typeStyle = css(type === "urgent" ? styles.urgent : styles.default);
-
-  if (value) {
-    if (type === "noNotifications") {
-      listItem = (
+  return (
+    <React.Fragment>
+      {type && value ? (
         <li
-          className={css(styles.noNotifications)}
-          data-notification-type={type}
-        >
-          {value}
-        </li>
-      );
-    } else {
-      listItem = (
-        <li
-          className={typeStyle}
           data-notification-type={type}
           onClick={() => markAsRead(id)}
+          className={type === 'default' ? css(styles.Default) : css(styles.Urgent)}
         >
           {value}
         </li>
-      );
-    }
-  } else {
-    listItem = (
-      <li
-        className={typeStyle}
-        data-notification-type={type}
-        dangerouslySetInnerHTML={html}
-        onClick={() => markAsRead(id)}
-      ></li>
-    );
-  }
+      ) : null}
 
-  return listItem;
+      {html ? (
+        <li
+          data-urgent
+          onClick={() => markAsRead(id)}
+          dangerouslySetInnerHTML={{ __html: html }}
+          className={css(styles.Urgent)}
+        ></li>
+      ) : null}
+    </React.Fragment>
+  );
 });
-
-NotificationItem.defaultProps = {
-  type: "default",
-  value: "",
-  html: {},
-  markAsRead: () => {},
-  id: NaN,
-};
-
-NotificationItem.propTypes = {
-  type: PropTypes.string,
-  value: PropTypes.string,
-  html: PropTypes.shape({
-    __html: PropTypes.string,
-  }),
-  markAsRead: PropTypes.func,
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-
-const screenSize = {
-  small: "@media screen and (max-width: 900px)",
-};
-
-const listItemSmall = {
-  listStyle: "none",
-  borderBottom: "1px solid black",
-  padding: "10px 8px",
-  fontSize: "20px",
-};
 
 const styles = StyleSheet.create({
-  default: {
-    color: "blue",
+  Default: {
+    color: 'blue',
+    ":hover": {
+      cusor: "pointer",
+    },
+    '@media (max-width: 400px)': {
+      borderBottom: '2px solid black',
+      fontSize: '20px',
+      listStyle: 'none',
+      padding: '10px 8px',
+    },
+  },
+
+  Urgent: {
+    color: 'red',
     ":hover": {
       cursor: "pointer",
     },
-    [screenSize.small]: listItemSmall,
-  },
-
-  urgent: {
-    color: "red",
-    ":hover": {
-      cursor: "pointer",
+    '@media (max-width: 400px)': {
+      borderBottom: '2px solid black',
+      fontSize: '20px',
+      listStyle: 'none',
+      padding: '10px 8px',
     },
-    [screenSize.small]: listItemSmall,
-  },
-
-  noNotifications: {
-    color: "black",
-    [screenSize.small]: listItemSmall,
   },
 });
+
+NotificationItem.propTypes = {
+  html: PropTypes.shape({
+    html: PropTypes.string,
+  }),
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  markAsRead: PropTypes.func,
+  id: PropTypes.number,
+};
+
+NotificationItem.defaultProps = {
+  type: 'default',
+  markAsRead: () => {
+    console.log('I will mark when called');
+  },
+  id: 0,
+};
 
 export default NotificationItem;
