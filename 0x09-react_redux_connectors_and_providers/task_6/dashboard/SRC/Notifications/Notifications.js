@@ -44,17 +44,17 @@ export const Notifications = class Notifications extends React.Component {
 	                onClick={() => handleHideDrawer() }>
 	                  <img src={ closeIcon } style={{ width:"20px", height:"20px" }} alt="close"></img>
                 </button>
-                <p>Here is the list of notifications</p>
+                <p className={ css(styles.notifParagraph) } >Here is the list of notifications</p>
                 <ul className={ css( styles.Ul) }>
                   {
-                    listNotifications ? (
-                      listNotifications && listNotifications.valueSeq().map((notif) => {
-                        let html = notif.get("html");
-                        html = html ? html.toJS() : null;
+                    listNotifications && listNotifications.valueSeq().map((notif) => {
+                        // let html = notif.get("html");
+                        // if (html) html = html.toJS();
+
                         return (
                           <NotificationItem
                             key={ notif.get('guid') }
-                            html={ html }
+                            html={ notif.get("html") }
                             type={ notif.get('type') }
                             value={ notif.get('value') }
                             id={ notif.get('guid') }
@@ -62,10 +62,10 @@ export const Notifications = class Notifications extends React.Component {
                           />
                         );
                       })
-                    ) : (
-                      <NotificationItem type="urgent" value="No new notification for now" />
-                    )
                   }
+                  {(!listNotifications || listNotifications.count() === 0) && (
+                      <NotificationItem type="urgent" value="No new notification for now" />
+                  )}
                 </ul>
               </div>
             </>
@@ -107,6 +107,7 @@ const bounceFrameAnim = {
 
 const styles = StyleSheet.create({
   Notifications: {
+    width: "100vw",
     backgroundColor: "white",
     border: "2px dashed red",
     fontFamily: "Arial, Heveltica, Sans-serif",
@@ -118,13 +119,14 @@ const styles = StyleSheet.create({
       position: "relative",
       display: "block",
       width: "100vw",
-      height: "100vh",
+      height: "67vh",
       marginLeft: "auto",
       marginRight: "auto",
       paddingTop: "50px",
       border: "none",
       padding: "0",
       fontSize: "20px",
+      overflowY: "auto",
     },
   },
 
@@ -172,6 +174,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: "15px",
     cursor: "pointer"
+  },
+
+  notifParagraph: {
+    marginLeft: "2%",
   },
 
 });

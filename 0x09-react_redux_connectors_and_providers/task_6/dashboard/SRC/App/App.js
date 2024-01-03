@@ -76,11 +76,13 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <div className={ css(styles.App) }>
-          <ConnectNotifications
-            displayDrawer={ displayDrawer }
-            handleDisplayDrawer={ displayNotificationDrawer }
-            handleHideDrawer={ hideNotificationDrawer }
-            />
+          <div>
+            <ConnectNotifications
+              displayDrawer={ displayDrawer }
+              handleDisplayDrawer={ displayNotificationDrawer }
+              handleHideDrawer={ hideNotificationDrawer }
+              />
+          </div>
           <div>
             <ConnectHeader displayDrawer={ displayDrawer } />
           </div>
