@@ -19,15 +19,15 @@ const CourseListRow = ({ isHeader, textFirstCell, textSecondCell}) => {
             :
             (
               <>
-                <th>{ textFirstCell }</th>
-                <th>{ textSecondCell }</th>
+                <th className={ css(styles.leftAlign) } >{ textFirstCell }</th>
+                <th className={ css(styles.rightAlign) } >{ textSecondCell }</th>
               </>
             )
           )
         :
         (
           <>
-            <td>
+            <td className={ css(styles.leftAlign) } >
               {textFirstCell && (
                 <input
                   type="checkbox"
@@ -37,7 +37,7 @@ const CourseListRow = ({ isHeader, textFirstCell, textSecondCell}) => {
               )}
               { textFirstCell }
             </td>
-            <td>{ textSecondCell }</td>
+            <td className={ css(styles.rightAlign) }>{ textSecondCell }</td>
           </>
         )
       }
@@ -56,6 +56,16 @@ const styles = StyleSheet.create({
 
   rowCheckedStyle: {
     backgroundColor: "#e6e4e4",
+  },
+
+  leftAlign: {
+    textAlign: "left",
+    paddingLeft: "20x",
+  },
+
+  rightAlign: {
+    textAlign: "right",
+    paddingRight: "20px",
   },
 });
 

@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
 });
 
 NotificationItem.propTypes = {
-  html: PropTypes.shape({
-    __html: PropTypes.string,
+  __html: PropTypes.shape({
+    html: PropTypes.string,
   }),
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
@@ -75,7 +75,6 @@ NotificationItem.propTypes = {
 
 NotificationItem.defaultProps = {
   type: 'default',
-  // html: {},
   markAsRead: () => {
     console.log('I will mark when called');
   },

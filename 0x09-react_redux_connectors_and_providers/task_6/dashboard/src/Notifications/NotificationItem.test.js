@@ -30,7 +30,7 @@ describe('test the functionality of the NotificationItem component', () => {
 
   it("test that it renders the correct html by passing the html prop <ul>test</ul>", () => {
     const component = shallow(<NotificationItem />);
-    component.setProps({ html: "<ul>test</ul>" })
+    component.setProps({ html: "<ul>test</ul>"})
     expect(component.html()).toContain('test');
   });
 

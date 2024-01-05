@@ -26,16 +26,16 @@ describe("Test the course list Component", () => {
 
   it("verifies that the component renders two cells when textSecondCell is not null", () => {
     const component = shallow(<CourseListRow isHeader={ true } textFirstCell="th ist text" textSecondCell="th 2nd text" />);
-    expect(component.find("tr").childAt(0).html()).toEqual('<th>th ist text</th>');
-    expect(component.find("tr").childAt(1).html()).toEqual('<th>th 2nd text</th>');
+    expect(component.find("tr").childAt(0).html()).toContain('th ist text</th>');
+    expect(component.find("tr").childAt(1).html()).toContain('th 2nd text');
   });
 
   it("verifies that the component renders two td element when header is false", () => {
-    const component = shallow(<CourseListRow isHeader={ false} textFirstCell="td 1st text" textSecondCell="td 2nd text" />);
+    const component = shallow(<CourseListRow isHeader={ false } textFirstCell="td 1st text" textSecondCell="td 2nd text" />);
     expect(component.find("tr").children("td")).toHaveLength(2);
-    expect(component.find("tr").childAt(0).html()).toEqual('<td><input type="checkbox"/>td 1st text</td>');
-    expect(component.find("tr").childAt(1).html()).toEqual('<td>td 2nd text</td>');
+    expect(component.find("tr").childAt(0).html()).toContain('<input type="checkbox"/>td 1st text');
+    expect(component.find("tr").childAt(1).html()).toContain('td 2nd text');
 
-  })
+  });
 
 })

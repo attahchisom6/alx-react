@@ -55,7 +55,7 @@ describe("test that our data is normalized as expected", () => {
     };
     const userId = "5debd764a7c57c7839d722e9";
 
-    expect(normalizedData.entities.user[userId]).toEqual(userEntity);
+    expect(normalizedData.entities.users[userId]).toEqual(userEntity);
   });
 
   it("verify that normalizeData has the correct message entity", () => {

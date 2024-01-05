@@ -4,7 +4,7 @@ const { getFullYear, getFooterCopy, getLatestNotification } = nameItAnything;
 
 describe("A test to see if the imported functions work correctly", () => {
   test("accurate current year is returned", () => {
-    expect(getFullYear()).toBe(2023);
+    expect(getFullYear()).toBe(2024);
   });
 
   test('test the copyroighf of the footer', () => {

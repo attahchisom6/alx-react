@@ -4,7 +4,7 @@ import {
   FETCH_NOTIFICATIONS_SUCCESS,
   SET_LOADING_STATE,
 } from "./notificationActionTypes.js";
-import "node-fetch";
+import fetch from "node-fetch";
 
 const markAsAread = (index) => {
   return {
@@ -43,15 +43,15 @@ const setNotifications = (data) => {
 };
 
 const fetchNotifications = () => {
-  /*const thunkAsync = async*/ return (dispatch) => {
+  const thunkAsync = async (dispatch) => {
     dispatch(setLoadingState(true));
-    return fetch("./notifications.json")
+    return fetch("http://localhost:7070/notifications.json")
       .then((data) => data.json())
       .then((resData) => dispatch(setNotifications(resData)))
       .catch(() => {})
       .finally(() => dispatch(setLoadingState(false)));
   }
-  // return thunkAsync;
+  return thunkAsync;
 }
 
 
