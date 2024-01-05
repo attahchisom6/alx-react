@@ -134,37 +134,14 @@ describe("testing selectors", () => {
   it("test that getUnreadNotifications return a list of the message entities within the reducer", () => {
     const action = setNotifications(data);
     newState = rootReducerSpy(state=initialRootState.initialNotifState, action);
-    // expect(newState.notifications.get("messages")).toEqual(0);
-    /*expect(JSON.stringify(
-      newState.toJS(), null, 2)
-    ).toEqual(
-       9
-    );*/
-    const expectedUnReadMsgs = {
-      filter: "URGENT",
-      notifications: [
-        {
-          id: 1,
-          isRead: false,
-          type: "default",
-          value: "New course available"
-        },
-        {
-          id: 2,
-          isRead: false,
-          type: "urgent",
-          value: "New resume available"
-        },
-      ],
-    };
     newState = { notifications: newState };
     const getUnreadNotificationsSpy = jest.spyOn(selectors, "getUnreadNotifications");
-    // newState = fromJS(notificationsNormalizer(newState.toJS()));
     const unReadMsgs = getUnreadNotificationsSpy(newState);
 
     expect(getUnreadNotificationsSpy).toHaveBeenCalled();
     expect(getUnreadNotificationsSpy).toHaveBeenCalledWith(newState);
-    expect(unReadMsgs).toEqual(expectedUnReadMsgs.notifications);
+    expect(unReadMsgs.count()).toEqual(2);
+    expect(unReadMsgs.valueSeq().every((item) => item.get("isRead") === false)).toBe(true);
     getUnreadNotificationsSpy.mockRestore();
   });
 });

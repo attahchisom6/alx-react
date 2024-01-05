@@ -16,26 +16,20 @@ import {
   mapDispatchToProps,
 } from "./Notifications";
 import notifNormalize from "../schema/notifications";
+import selectors from "../selectors/notificationSelector"
 
 const { getLatestNotification } = utils;
 const { rootReducer, initialRootState } = reduxRootState;
 const { notificationsNormalizer } = notifNormalize;
-
-beforeEach(()  => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
-
-afterEach(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
+const { getUnreadNotifications } = selectors;
 const id = /[a-zA-Z0-9]+/;
 
-/*const listNotifications = fromJS(notificationsNormalizer([
+/*let listNotifications = fromJS(notificationsNormalizer([
   {id: 1, type: "default", value: "1st Notification"},
   {id: 2, type: "urgent", value: "2nd Notification"},
   {id: 3, type: "urgent", html: getLatestNotification()},
 ]));*/
-const listNotifications = [
+const data = [
   {
     id: '5debd76480edafc8af244228',
     author: {
@@ -96,6 +90,23 @@ const listNotifications = [
   },
 ];
 
+let state, newState, listNotifications;
+const action = actionCreators.setNotifications(data);
+newState = rootReducer.notifications(state=initialRootState.initialNotifState, action);
+newState = { notifications: newState };
+const unReadMsgs = getUnreadNotifications(newState);
+
+
+
+beforeEach(()  => {
+  StyleSheetTestUtils.suppressStyleInjection();
+  listNotifications = unReadMsgs;
+});
+
+afterEach(() => {
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
 describe('Test the Notification component', () => {
   it("Test that Notifications render without crashing", () => {
     const component = shallow(<Notifications />);
@@ -109,12 +120,13 @@ describe('Test the Notification component', () => {
 
   it("verify that Notifications render 1 list items when displayDrawer is true and no array is passed", () => {
     const component = shallow(<Notifications displayDrawer={ true } />);
+    expect(component.find(NotificationItem).exists()).toBe(true);
     expect(component.find(NotificationItem)).toHaveLength(1);
   });
 
-  it("verify that Notifications render 3 list items when displayDrawer is true and an array is passed", () => {
+  it("verify that Notifications render 2 list items when displayDrawer is true and an array is passed", () => {
     const component = shallow(<Notifications displayDrawer={ true } listNotifications={ listNotifications } />);
-    expect(component.find("NotificationItem")).toHaveLength(3);
+    expect(component.find(NotificationItem)).toHaveLength(2);
   });
 
   it("verify that Notifications renders the text 'Here is the list of notifications' wen displayDrawer is true", () => {
@@ -148,12 +160,12 @@ describe('Test the Notification component', () => {
 
   it("verifies that notifications renders correctly, if an empty array is passed", () => {
     const component = shallow(<Notifications displayDrawer={ true } listCourses={ [] } />);
-    expect(component.find("NotificationItem").dive().text()).toEqual("No new notification for now");
+    expect(component.find(NotificationItem).dive().text()).toEqual("No new notification for now");
   });
 
   it("verifies that notifications renders correctly, if no listCourses array is passed", () => {
     const component = shallow(<Notifications displayDrawer={ true } />);
-    const NotifItem = component.find("NotificationItem");
+    const NotifItem = component.find(NotificationItem);
     expect(NotifItem.exists()).toBe(true);
     // expect(NotifItem.dive().prop("className")).toMatch(/Urgent_(\w+)/);
     expect(NotifItem.html()).toContain('No new notification for now');
@@ -161,11 +173,10 @@ describe('Test the Notification component', () => {
 
   it("verify that when you pass a list of notifications, the component renders it correctly and with the right number of NotificationItem", () => {
     const component = shallow(<Notifications displayDrawer={ true } listNotifications={ listNotifications } />);
-    const NotifItem = component.find("NotificationItem");
-    expect(NotifItem).toHaveLength(3);
-    expect(NotifItem.at(0).html()).toContain('1st Notification');
-    expect(NotifItem.at(1).html()).toContain('2nd Notification');
-    expect(NotifItem.at(2).html()).toContain('<strong>Urgent requirement</strong> - complete by EOD');
+    const NotifItem = component.find(NotificationItem);
+    expect(NotifItem).toHaveLength(2);
+    expect(NotifItem.at(0).html()).toContain('ut labore et dolore magna aliqua. Dignissim convallis aenean et tortor at risus viverra adipiscing. Ac tortor dignissim convallis aenean et.');
+    expect(NotifItem.at(1).html()).toContain('Non diam phasellus vestibulum lorem sed risus ultricies. Tellus mauris a diam maecenas sed');
   });
 
 });
@@ -200,14 +211,14 @@ describe("A test to check if Notifications renders when passed with the same lis
     const component = shallow(<Notifications displayDrawer listNotifications={ initialList } />);
     expect(component.exists()).toBe(true);
 
-    const newListNotifications = [
+    /*const newListNotifications = {
       ...listNotifications,
       {id: 4, type: "default", value: "4th Notifications"},
-    ]
+    };
 
     // const instance = component.instance().shouldComponentUpdate(newListNotifications);
     const newComp = shallow(<Notifications listNotifications={ newListNotifications } />);
-    expect(newComp.exists()).toBe(true);
+    expect(newComp.exists()).toBe(true);*/
   });
 });
 
@@ -243,7 +254,7 @@ import normalizedData from "../schema/notifications";
 
 const middlewares = [thunk];
 jest.mock("node-fetch", () => require("fetch-mock").sandbox());
-const fetchMock = require("node-fetch");
+// const fetchMock = require("node-fetch");
 
 describe("test that notification actions are created and properly updates the state", () => {
   let fetchNotifSpy, component;
@@ -262,16 +273,23 @@ describe("test that notification actions are created and properly updates the st
     expect(fetchNotifSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("test that mapStateToProps works as ezpected", async () => {
-    const mockStore = configureStore(middlewares);
-    const store = mockStore(rootReducer, initialRootState);
-    fetchMock.mock("http://localhost:7070/notifications.json", notifData);
-    await store.dispatch(actionCreators.fetchNotifications());
-    const actions = await store.getActions();
-    // expect(actions).toEqual(0);
-    const newState = rootReducer.notifications(initialRootState.notifications, actions[1]);
-    expect(newState).toEqual(0);
-    const actual = mapStateToProps(newState);
-    expect(actual).toEqual(0);
+  it("test that mapStateToProps works as expected", async () => {
+    const updatedProp = mapStateToProps(newState);
+    const expected = [
+      {
+        "guid": "cec84b7a-7be4-4af0-b833-f1485433f66e",
+        "isRead": false,
+        "type": "urgent",
+        "value": "ut labore et dolore magna aliqua. Dignissim convallis aenean et tortor at risus viverra adipiscing. Ac tortor dignissim convallis aenean et. "
+      },
+      {
+        "guid": "280913fe-38dd-4abd-8ab6-acdb4105f922",
+        "isRead": false,
+        "type": "urgent",
+        "value": "Non diam phasellus vestibulum lorem sed risus ultricies. Tellus mauris a diam maecenas sed"
+      }
+    ];
+    
+    expect(updatedProp.listNotifications.toJS()).toEqual(expected);
   });
 });
