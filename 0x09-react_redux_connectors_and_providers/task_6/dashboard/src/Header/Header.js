@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   Welcome: {
-    position: "absolute",
+    position: "relative",
     right: "10px",
     top: "30%",
     "@media (max-width: 400px)": {
