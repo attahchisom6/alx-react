@@ -210,14 +210,14 @@ describe("A test to check if Notifications renders when passed with the same lis
     const initialList = listNotifications;
     const component = shallow(<Notifications displayDrawer listNotifications={ initialList } />);
     expect(component.exists()).toBe(true);
-    expect(listNotifications).toEqual(0);
 
-    const newListNotifications = listNotifications.update('messages', {
+    const insertedListItem = Map({
       guid: "4",
       type: "default",
       "isRead": false,
       value: "4th Notifications"
     });
+    const newListNotifications = listNotifications.setIn(['messages', String(insertedListItem.get("guid"))], insertedListItem);
 
     // const instance = component.instance().shouldComponentUpdate(newListNotifications);
     const newComp = shallow(<Notifications listNotifications={ newListNotifications } />);
