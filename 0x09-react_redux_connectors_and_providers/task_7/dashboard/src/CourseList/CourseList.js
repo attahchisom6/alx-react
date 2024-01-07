@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import CourseListRow from './CourseListRow';
 import CourseShape from './CourseShape';
 import PropTypes from 'prop-types';
 import { css, StyleSheet } from "aphrodite";
+import {
+  unSelectCourse,
+  selectCourse,
+  fetchCourses,
+  setCourses,
+} from "../actions/courseActionCreators";
+import getArrayOfCourses from "../selectors/courseSelector"
 
-const CourseList = ({ listCourses }) => {
+const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses }) => {
   return (
     <table className={ css(styles.Table) }>
       <thead>
@@ -48,6 +55,18 @@ CourseList.propTypes = {
 
 CourseList.defaultProps = {
   listCourses: [],
+}
+
+const mapStateToProps = (state) => {
+  return {
+    listCourses: getArrayOfCourses(state);
+  };
+
+  const mapDispatchToProps = {
+    selectCourse,
+    unSelectCourse,
+    fetchCourses,
+  }
 }
 
 export default CourseList;

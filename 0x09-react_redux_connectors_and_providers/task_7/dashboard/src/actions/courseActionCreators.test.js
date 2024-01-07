@@ -2,6 +2,7 @@ import {
   unSelectCourse,
   selectCourse,
   fetchCourses,
+  setCourses,
 } from "./courseActionCreators";
 import * as courseData from "../../dist/courses.json"
 
@@ -47,7 +48,7 @@ describe("test that our api returns the right data", () => {
         data: courseData,
       },
     ];
-    fetchMock.mock("./courses.json", {
+    fetchMock.mock("http://localhost:7070/courses.json", {
       body: courseData,
       headers: {"content-type": "application/json"},
     });

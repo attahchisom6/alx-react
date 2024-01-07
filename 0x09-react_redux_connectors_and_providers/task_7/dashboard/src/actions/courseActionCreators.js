@@ -39,13 +39,13 @@ const setCourses = (data) => {
 
 const fetchCourses = () => {
   const thunkAsync = async (dispatch) => {
-    return fetch("./courses.json")
-      .then((data) => data.json())
-      .then(() => dispatch(setCourses(data)))
+    return fetch("http://localhost:7070/courses.json")
+      .then((response) => response.json())
+      .then((data) => dispatch(setCourses(data)))
       .catch(() => {});
-  }
+  };
   return thunkAsync;
-}
+};
 
 
 export {
@@ -53,6 +53,7 @@ export {
   selectCourse,
   fetchCourseSucess,
   fetchCourses,
+  setCourses,
   boundSelectCourse,
   boundUnSelectCourse,
 };
