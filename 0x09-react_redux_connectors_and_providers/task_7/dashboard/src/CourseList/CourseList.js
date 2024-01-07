@@ -15,6 +15,15 @@ const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses })
   useEffect(() => {
     fetchCourses();
   }, [fetchCourses]);
+
+  const onChangeRow = (id, checked) => {
+    if (checked) {
+      selectCourse(id);
+    } else {
+      unSelectCourse(id);
+    }
+  };
+
   return (
     <table className={ css(styles.Table) }>
       <thead>
