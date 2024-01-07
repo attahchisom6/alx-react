@@ -12,6 +12,9 @@ import {
 import getArrayOfCourses from "../selectors/courseSelector"
 
 const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses }) => {
+  useEffect(() => {
+    fetchCourses();
+  }, [fetchCourses]);
   return (
     <table className={ css(styles.Table) }>
       <thead>
