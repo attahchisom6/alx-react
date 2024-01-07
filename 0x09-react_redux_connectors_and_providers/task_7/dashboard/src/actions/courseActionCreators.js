@@ -3,7 +3,7 @@ import {
   UNSELECT_COURSE,
   FETCH_COURSE_SUCCESS,
 } from "./courseActionTypes";
-import fetch from "node-fetch";
+import fetch from "node-fetch"
 
 const selectCourse = (index) => {
   return ({
@@ -33,14 +33,16 @@ const boundUnSelectCourse = (index) => dispatch(unSelectCourse(index));
 const setCourses = (data) => {
   return {
     type: FETCH_COURSE_SUCCESS,
-    data: data,                             };
+    data: data,
+  };
+};
 
-const fetchCourses() => {
+const fetchCourses = () => {
   const thunkAsync = async (dispatch) => {
-    return fetch("http://localhost:7070/courses.json")
+    return fetch("./courses.json")
       .then((data) => data.json())
       .then(() => dispatch(setCourses(data)))
-      .catch((error) => dispatch({Error: console.error(error})))
+      .catch(() => {});
   }
   return thunkAsync;
 }
@@ -50,6 +52,7 @@ export {
   unSelectCourse,
   selectCourse,
   fetchCourseSucess,
+  fetchCourses,
   boundSelectCourse,
   boundUnSelectCourse,
 };
