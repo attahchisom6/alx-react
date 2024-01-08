@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import CourseListRow from './CourseListRow';
-import CourseShape from './CourseShape';
 import PropTypes from 'prop-types';
 import { css, StyleSheet } from "aphrodite";
 import {
@@ -9,7 +8,7 @@ import {
   fetchCourses,
   setCourses,
 } from "../actions/courseActionCreators";
-import getArrayOfCourses from "../selectors/courseSelector"
+import getArrayOfCourses from "../selectors/courseSelector";
 
 const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses }) => {
   useEffect(() => {
@@ -36,9 +35,12 @@ const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses })
             listCourses.map((course) => ( 
               <CourseListRow
                 key={ course.id }
+                id={ course.id }
                 textFirstCell={ course.name }
                 textSecondCell={ course.credit }
-                isHeader={ false }
+                isHeader={ false },
+                isChecked={ course.isSelected }
+                onChangeRow={ onChangeRow }
               />
             ))
           ) : (
@@ -62,11 +64,17 @@ const styles = StyleSheet.create({
 });
 
 CourseList.propTypes = {
-  listCourses: PropTypes.arrayOf(CourseShape),
+  listCourses: PropTypes.oneOfType(PropTypes.array, PropTypes.object),
+  selectCourse: PropTypes.func,
+  unSelectCourse: PropTypes.func,
+  fetchCourses: PropTypes.func,
 }
 
 CourseList.defaultProps = {
   listCourses: [],
+  selectCourse: () => {},
+  unSelectCourse: () => {},
+  fetchCourses: () => {},
 }
 
 const mapStateToProps = (state) => {

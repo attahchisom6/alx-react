@@ -2,14 +2,12 @@ import React, { useState, useEffect }  from 'react';
 import PropTypes from 'prop-types';
 import { css, StyleSheet } from "aphrodite";
 
-const CourseListRow = ({ isHeader, textFirstCell, textSecondCell}) => {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleOnChecked = () => {
-    setIsChecked(!isChecked);
-  }
-
+const CourseListRow = ({ isHeader, textFirstCell, textSecondCell, id, isChecked, onChangeRow }) => {
   const rowStyles = isChecked ? styles.rowCheckedStyle : styles.rowStyle;
+  
+  const handleOnChecked = () => {
+    return onChangeRow(id, !isChecked);
+  }
 
   return (
     <tr className={ isHeader ? css(styles.headerStyle) : css(rowStyles) }>
