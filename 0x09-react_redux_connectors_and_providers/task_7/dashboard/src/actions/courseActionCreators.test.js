@@ -45,7 +45,7 @@ describe("test that our api returns the right data", () => {
     const expectedAction = [
       {
         type: "FETCH_COURSE_SUCCESS",
-        data: courseData,
+        data: courseData.default,
       },
     ];
     fetchMock.mock("http://localhost:7070/courses.json", {
@@ -54,6 +54,6 @@ describe("test that our api returns the right data", () => {
     });
     await store.dispatch(fetchCourses());
     const actualAction = store.getActions();
-    expect(actualAction).toEqual(0);
+    expect(actualAction).toEqual(expectedAction);
    })
 })
