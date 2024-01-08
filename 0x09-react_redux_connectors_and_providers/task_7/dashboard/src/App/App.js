@@ -5,7 +5,7 @@ import ConnectNotifications from '../Notifications/Notifications';
 import ConnectHeader from '../Header/Header';
 import Login from '../Login/Login';
 import ConnectFooter from '../Footer/Footer';
-import CourseList from '../CourseList/CourseList';
+import ConnectCourseList from '../CourseList/CourseList';
 import PropTypes from 'prop-types';
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
 import BodySection from "../BodySection/BodySection";
@@ -46,24 +46,6 @@ class App extends React.Component {
     document.removeEventListener("keydown", this.handleKeyPress);
   }
 
-  listCourses = [
-    {
-      id: 1,
-      name: "ES6",
-      credit: 60,
-    },
-    {
-      id: 2,
-      name: "Webpack",
-      credit: 20,
-    },
-    {
-      id: 3,
-      name: "React",
-      credit: 40,
-    },
-  ];
-
   render() {
     const { user } = this.state;
     const {
@@ -88,7 +70,7 @@ class App extends React.Component {
           </div>
           { isLoggedIn ? (
               <BodySectionWithMarginBottom title="Course list">
-                <CourseList listCourses={ this.listCourses } />
+                <ConnectCourseList />
               </BodySectionWithMarginBottom>
             ) : (
               <BodySectionWithMarginBottom title="Log in to continue">

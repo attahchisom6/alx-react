@@ -9,6 +9,7 @@ import {
   setCourses,
 } from "../actions/courseActionCreators";
 import getArrayOfCourses from "../selectors/courseSelector";
+import { connect } from "react-redux";
 
 const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses }) => {
   useEffect(() => {
@@ -31,22 +32,21 @@ const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses })
       </thead>
       <tbody>
         {
-          listCourses && listCourses.length > 0 ? (
-            listCourses.map((course) => ( 
-              <CourseListRow
-                key={ course.id }
-                id={ course.id }
-                textFirstCell={ course.name }
-                textSecondCell={ course.credit }
-                isHeader={ false }
-                isChecked={ course.isSelected }
-                onChangeRow={ onChangeRow }
-              />
-            ))
-          ) : (
-            <CourseListRow textFirstCell='No course available yet' isHeader={ false } />
-          )
+          listCourses && listCourses.map((course) => ( 
+            <CourseListRow
+              key={ course.id }
+              id={ course.id }
+              textFirstCell={ course.name }
+              textSecondCell={ course.credit }
+              isHeader={ false }
+              isChecked={ course.isSelected }
+              onChangeRow={ onChangeRow }
+            />
+          ))
         }
+        {(!listCourses || listCourses.length === 0) && (
+            <CourseListRow textFirstCell='No course available yet' isHeader={ false } />
+        )}
       </tbody>
     </table>
   );
@@ -80,12 +80,17 @@ const mapStateToProps = (state) => {
   return {
     listCourses: getArrayOfCourses(state),
   };
+};
 
-  const mapDispatchToProps = {
-    selectCourse,
-    unSelectCourse,
-    fetchCourses,
-  }
+const mapDispatchToProps = {
+  selectCourse,
+  unSelectCourse,
+  fetchCourses,
 }
 
-export default CourseList;
+export default connect(mapStateToProps, mapDispatchToProps)(CourseList);
+export {
+  CourseList,
+  mapStateToProps,
+  mapDispatchToProps,
+};

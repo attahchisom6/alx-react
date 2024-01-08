@@ -54,6 +54,6 @@ describe("test that our api returns the right data", () => {
     });
     await store.dispatch(fetchCourses());
     const actualAction = store.getActions();
-    expect(actualAction).toEqual(expectedAction);
+    expect(actualAction).toEqual(0);
    })
 })

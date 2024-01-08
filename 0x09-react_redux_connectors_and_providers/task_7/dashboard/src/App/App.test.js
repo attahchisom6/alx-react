@@ -13,7 +13,7 @@ import ConnectNotifications from "../Notifications/Notifications";
 import ConnectHeader from '../Header/Header';
 import  Login from '../Login/Login';
 import ConnectFooter from '../Footer/Footer';
-import CourseList from '../CourseList/CourseList';
+import ConnectCourseList from '../CourseList/CourseList';
 import utils from '../utils/utils';
 import { StyleSheetTestUtils } from "aphrodite";
 import app from "./App";
@@ -60,7 +60,7 @@ describe("Test the components of our react app", () => {
 
   it("verifies that the App renders a CourseList component but not a Login component", () => {
     const component = shallow(<App isLoggedIn={ true } />);
-    expect(component.find("CourseList").exists()).toBe(true);
+    expect(component.find(ConnectCourseList).exists()).toBe(true);
     expect(component.find("Login").exists()).toBe(false);
   });
 

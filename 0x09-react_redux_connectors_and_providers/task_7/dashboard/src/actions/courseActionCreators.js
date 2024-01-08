@@ -3,7 +3,7 @@ import {
   UNSELECT_COURSE,
   FETCH_COURSE_SUCCESS,
 } from "./courseActionTypes";
-import fetch from "node-fetch"
+import /*fetch from*/ "node-fetch"
 
 const selectCourse = (index) => {
   return ({

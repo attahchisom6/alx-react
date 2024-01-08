@@ -4,21 +4,28 @@
 
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import CourseList from './CourseList';
+import { CourseList, mapStateToProps } from './CourseList';
 import CourseListRow from './CourseListRow';
 import { StyleSheetTestUtils } from "aphrodite";
 import * as actionCreators from "../actions/courseActionCreators";
+import courseState from "../reducers/courseReducer";
+import * as courseData from "../../dist/courses";
 
+const { initialState } = courseState;
+
+let state, newState, courseReducerSpy;
 beforeEach(()  => {
   StyleSheetTestUtils.suppressStyleInjection();
+  courseReducerSpy = jest.spyOn(courseState, "courseReducer");
 });
 
 afterEach(() => {
   StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  courseReducerSpy.mockRestore();
 });
 const id = /[a-zA-Z0-9]+/;
 
-const listCourses = [
+let listCourses = [
   {id: 1, name: "C", credit: 100},
   {id: 2, name: "javascript", credit: 80},
   {id: 3, name: "react", credit: 90},
@@ -80,17 +87,43 @@ describe("verify the anxtions and dispatched actions work as intebded", () => {
   });
 
   it("Verify that the two actions, select and unselect are correctly dispatched when the onChangeRow function is called", () => {
-    const selectSpy = jest.spyOn(actionCreators, "selectCourse");
-    const unselectSpy = jest.spyOn(actionCreators, "unSelectCourse")
-    const component    = shallow(<CourseList listCourses={listCourses}/>);
+    const selectSpy = jest.spyOn(CourseList.defaultProps, "selectCourse");
+    const unselectSpy = jest.spyOn(CourseList.defaultProps, "unSelectCourse")
+    const component    = shallow(<CourseList listCourses={listCourses} isHeader={ false } />);
+    const courseListRow = component.find(CourseListRow);
+    courseListRow.forEach((node, idx) => {
+      console.log(`node: ${idx}:`)
+      console.log(node.html());
+      console.log("props", node.props());
+      console.log("--------------");
+    });
+    const onChangeRow = courseListRow.at(3).prop("onChangeRow");
 
-    const instance = component.instance();
-    instance.onChangeRow(1, true);
-
-    expect(selectSpy).toHaveBeenCalled();
+    onChangeRow(1, true);
+    expect(selectSpy).toHaveBeenCalledWith(1);
     expect(unselectSpy).not.toHaveBeenCalled();
+    selectSpy.mockRestore();
+
+    onChangeRow(1, false);
+    expect(unselectSpy).toHaveBeenCalledWith(1);                                          expect(selectSpy).not.toHaveBeenCalled();
 
     selectSpy.mockRestore();
     unselectSpy.mockRestore()
+  });
+});
+
+describe("tests that mapStateToProp right update the state with the ciurseList", () => {
+  it("verifies mapStateToProps works as expected", () => {
+    const action = actionCreators.setCourses(courseData);
+    console.log("actions", action);
+    newState = courseReducerSpy(state=initialState, action);
+    console.log("first newState:", newState);
+    newState = { courses: newState };
+    console.log("second newState:", newState);
+    listCourses = mapStateToProps(newState).listCourses;
+    console.log("listCourses:", listCourses);
+    const component = shallow(<CourseList listCourses={ listCourses } />)
+    expect(component).toBeDefined();
+    expect(component.find(CourseListRow).at(3).html()).toContain('Webpack');
   });
 });
