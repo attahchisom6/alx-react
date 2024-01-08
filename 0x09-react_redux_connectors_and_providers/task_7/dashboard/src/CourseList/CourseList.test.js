@@ -1,8 +1,13 @@
+/*
+* @jest-environment jsdom
+*/
+
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import CourseList from './CourseList';
 import CourseListRow from './CourseListRow';
 import { StyleSheetTestUtils } from "aphrodite";
+import * as actionCreators from "../actions/courseActionCreators";
 
 beforeEach(()  => {
   StyleSheetTestUtils.suppressStyleInjection();
@@ -61,5 +66,31 @@ describe('test the course list component', () => {
       expect(component.find("tbody").childAt(index).exists()).toBe(true);
     });
   });
+});
 
+
+
+describe("verify the anxtions and dispatched actions work as intebded", () => {
+  it('verifies that fetchCourses is called when component is mounted', () => {
+    // const obj = {fetchCourseKey: fetchCourses };
+    const fetchCoursesSpy = jest.spyOn(CourseList.defaultProps, "fetchCourses");
+    const component = mount(<CourseList />);
+    expect(fetchCoursesSpy).toHaveBeenCalled();
+    fetchCoursesSpy.mockRestore();
+  });
+
+  it("Verify that the two actions, select and unselect are correctly dispatched when the onChangeRow function is called", () => {
+    const selectSpy = jest.spyOn(actionCreators, "selectCourse");
+    const unselectSpy = jest.spyOn(actionCreators, "unSelectCourse")
+    const component    = shallow(<CourseList listCourses={listCourses}/>);
+
+    const instance = component.instance();
+    instance.onChangeRow(1, true);
+
+    expect(selectSpy).toHaveBeenCalled();
+    expect(unselectSpy).not.toHaveBeenCalled();
+
+    selectSpy.mockRestore();
+    unselectSpy.mockRestore()
+  });
 });

@@ -17,9 +17,9 @@ const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses })
 
   const onChangeRow = (id, checked) => {
     if (checked) {
-      selectCourse(id);
+      return selectCourse(id);
     } else {
-      unSelectCourse(id);
+      return unSelectCourse(id);
     }
   };
 
@@ -38,7 +38,7 @@ const CourseList = ({ listCourses, selectCourse, unSelectCourse, fetchCourses })
                 id={ course.id }
                 textFirstCell={ course.name }
                 textSecondCell={ course.credit }
-                isHeader={ false },
+                isHeader={ false }
                 isChecked={ course.isSelected }
                 onChangeRow={ onChangeRow }
               />
@@ -64,8 +64,7 @@ const styles = StyleSheet.create({
 });
 
 CourseList.propTypes = {
-  listCourses: PropTypes.oneOfType(PropTypes.array, PropTypes.object),
-  selectCourse: PropTypes.func,
+  listCourses: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   unSelectCourse: PropTypes.func,
   fetchCourses: PropTypes.func,
 }
@@ -79,7 +78,7 @@ CourseList.defaultProps = {
 
 const mapStateToProps = (state) => {
   return {
-    listCourses: getArrayOfCourses(state);
+    listCourses: getArrayOfCourses(state),
   };
 
   const mapDispatchToProps = {
